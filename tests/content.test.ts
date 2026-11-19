@@ -1,6 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { filterBooks, genres, library, periods } from '../src/content.ts';
+import { bookFromSearch, filterBooks, genres, library, periods } from '../src/content.ts';
+
+test('links aceitam códigos do cânon e usam Gênesis como padrão', () => {
+  assert.equal(bookFromSearch('?livro=jo'), 'JO');
+  assert.equal(bookFromSearch('?livro=xyz'), 'GN');
+  assert.equal(bookFromSearch(''), 'GN');
+});
 
 test('os 66 livros têm ficha, autoria, contexto e classe', () => {
   assert.equal(library.length, 66);

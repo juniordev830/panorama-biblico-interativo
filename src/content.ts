@@ -1,5 +1,10 @@
 import { books } from './canon.ts';
 
+export function bookFromSearch(search: string): string {
+  const code = new URLSearchParams(search).get('livro')?.trim().toUpperCase();
+  return books.find(book => book.code === code)?.code ?? 'GN';
+}
+
 export const periods = [
   { id: 'origens', name: 'Origens e patriarcas', time: 'Cronologia debatida', event: 'Chamado de Abraão',
     evidence: 'Narrativa bíblica', reference: 'Gênesis 12:1–9', detail: 'O chamado introduz terra, descendência e bênção como temas da narrativa.',
