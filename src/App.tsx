@@ -1,16 +1,22 @@
 import { useState } from 'react';
-import { filterBooks, genres, library, periods } from './content.ts';
+import { bookFromSearch, filterBooks, genres, library, periods } from './content.ts';
 
 export default function App() {
   const [testament, setTestament] = useState('');
   const [genre, setGenre] = useState('');
   const [period, setPeriod] = useState('');
   const [query, setQuery] = useState('');
-  const [selected, setSelected] = useState<string>('GN');
+  const [selected, setSelected] = useState(() => bookFromSearch(window.location.search));
   const [timeline, setTimeline] = useState<string>(periods[0].id);
   const point = periods.find(item => item.id === timeline)!;
   const filtered = filterBooks(testament, genre, period, query);
   const book = filtered.find(item => item.code === selected) ?? filtered[0];
+  function selectBook(code: string) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('livro', code);
+    window.history.replaceState(window.history.state, '', url);
+    setSelected(code);
+  }
 
   return <div className="stack">
     <section className="panel stack">
@@ -53,7 +59,7 @@ export default function App() {
           <p><strong>Temas em destaque.</strong> {book.focus}</p>
         </article>
         <ul className="list book-nav" aria-label="Livros encontrados">{filtered.map(item => <li key={item.code}>
-          <button className="selection" onClick={() => setSelected(item.code)} aria-pressed={item.code === book.code}>{item.name}</button>
+          <button className="selection" onClick={() => selectBook(item.code)} aria-pressed={item.code === book.code}>{item.name}</button>
         </li>)}</ul>
       </div>}
       <details>
