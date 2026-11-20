@@ -19,7 +19,7 @@ export default function App() {
   }
 
   return <div className="stack">
-    <section className="panel stack">
+    <section className="panel stack" id="linha-do-tempo" tabIndex={-1}>
       <h2>Linha do tempo</h2>
       <div className="timeline" aria-label="Períodos históricos e narrativos">
         {periods.map(item => <button key={item.id} aria-pressed={timeline === item.id} onClick={() => setTimeline(item.id)}>{item.name}</button>)}
@@ -37,7 +37,7 @@ export default function App() {
         </div>
       </div>
     </section>
-    <section className="panel stack">
+    <section className="panel stack" id="biblioteca" tabIndex={-1}>
       <div className="row between"><h2>Biblioteca dos 66 livros</h2><small role="status">{filtered.length} de {library.length} livros</small></div>
       <div className="two collapse">
         <label>Busca por livro ou tema<input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="Ex.: Filipenses" /></label>
